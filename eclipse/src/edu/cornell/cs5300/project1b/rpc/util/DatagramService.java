@@ -57,12 +57,12 @@ public class DatagramService {
 	public static boolean sendDatagramPacket (DatagramPacket packet) {
 		Logger.debug(fname + "#sendDatagramPacket: called");
 		//reopen if necessary
-		if (socket.isClosed() || !socket.isConnected()) {
-			Logger.warn(fname + "#sendDatagramPacket: "
-				+ "had to restart DatagramService");
-			socket.close();
-			init();
-		}
+//		if (socket.isClosed() || !socket.isConnected()) {
+//			Logger.warn(fname + "#sendDatagramPacket: "
+//				+ "had to restart DatagramService");
+//			socket.close();
+//			init();
+//		}
 		try {
 			socket.send(packet);
 			return true;
@@ -84,11 +84,12 @@ public class DatagramService {
 	public static DatagramPacket receiveDatagramPacket () {
 		Logger.debug(fname + "#receiveDatagramPacket: called");
 		//reopen if necessary
-		if (socket.isClosed() || !socket.isConnected()) {
-			Logger.warn(fname + "#receiveDatagramPacket: "
-					+ "had to restart DatagramService");
-			init();
-		}
+//		if (socket.isClosed() || !socket.isConnected()) {
+//			Logger.warn(fname + "#receiveDatagramPacket: "
+//					+ "had to restart DatagramService");
+//			socket.close();
+//			init();
+//		}
 		try {
 			DatagramPacket received = new DatagramPacket(new byte[Constants.MAX_MESSAGE_SIZE], Constants.MAX_MESSAGE_SIZE);
 			socket.receive(received);
