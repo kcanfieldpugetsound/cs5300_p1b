@@ -20,7 +20,7 @@ import edu.cornell.cs5300.project1b.util.log.Logger;
 public class SessionManager {
 	
 	private static final String fname = 
-		"edu.cornell.cs5300.projet1b.servlet.session.SessionManager";
+		"edu.cornell.cs5300.project1b.servlet.session.SessionManager";
 	
 	/**
 	 * Queries all of the {@code servers} for the Session with the given 
