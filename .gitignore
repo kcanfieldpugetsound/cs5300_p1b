@@ -21,3 +21,6 @@ eclipse/.classpath
 eclipse/.project
 eclipse/.settings/*
 
+.project
+
+eclipse/build
