@@ -10,7 +10,7 @@ import edu.cornell.cs5300.project1b.util.log.Logger;
  */
 public class IPAddress {
 	
-	private byte[] bytes;
+	private byte[] bytes = new byte[4];
 	
 	private static final String fname = 
 		"edu.cornell.cs5300.project1b.IPAddress";
