@@ -46,8 +46,10 @@ public class ServerFileInterface {
 			Scanner sc = new Scanner(new File(Constants.SERVER_FILEPATH));
 			while (sc.hasNextLine()) {
 				String line = sc.nextLine();
-				if (line.matches(Constants.IP_REGEX)) 
-					servers.add(new IPAddress(sc.nextLine()));
+				if (line.matches(Constants.IP_REGEX)){ 
+					System.out.println("serverfileline is " + line);
+					servers.add(new IPAddress(line));
+				}
 			}
 			sc.close();
 			return servers;
