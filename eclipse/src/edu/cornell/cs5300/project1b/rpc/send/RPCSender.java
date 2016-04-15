@@ -60,9 +60,12 @@ public class RPCSender {
 	 * RPCSenderThread}.
 	 */
 	public static void init () {
+		Logger.debug(fname + "#init: called");
 		send_ready_packets = new LinkedList<DatagramPacket>();
 		send_ready = new Semaphore(0);
 		(new RPCSenderThread()).start();
+		Logger.debug(fname + "#init: RPCSenderThread started");
+		Logger.debug(fname + "#init: completed");
 	}
 	
 	/**

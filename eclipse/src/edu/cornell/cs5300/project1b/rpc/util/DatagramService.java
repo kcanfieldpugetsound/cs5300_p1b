@@ -82,7 +82,7 @@ public class DatagramService {
 	 * @return the received packet
 	 */
 	public static DatagramPacket receiveDatagramPacket () {
-		Logger.debug(fname + "#receiveDatagramPacket: called");
+		Logger.debug(fname + "#receiveDatagramPacket: called on thread " + Thread.currentThread().getId());
 		//reopen if necessary
 //		if (socket.isClosed() || !socket.isConnected()) {
 //			Logger.warn(fname + "#receiveDatagramPacket: "

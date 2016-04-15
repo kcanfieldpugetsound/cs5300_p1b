@@ -13,6 +13,7 @@ import edu.cornell.cs5300.project1b.rpc.message.RPCMessageInterpreter;
 import edu.cornell.cs5300.project1b.rpc.receive.reap.RPCReceiveReaperThread;
 import edu.cornell.cs5300.project1b.servlet.session.SessionId;
 import edu.cornell.cs5300.project1b.util.Pair;
+import edu.cornell.cs5300.project1b.util.log.Logger;
 
 /**
  * A class for handling received messages from the RPC service.
@@ -46,6 +47,9 @@ import edu.cornell.cs5300.project1b.util.Pair;
  *
  */
 public class RPCReceiver {
+	
+	private static final String fname = 
+		"edu.cornell.cs5300.project1b.rpc.receive.RPCReceiver";
 	
 	public static String mutex;
 	
@@ -141,7 +145,8 @@ public class RPCReceiver {
 	 * RPCPushRequestHandlerThread}</li>
 	 * </ul>
 	 */
-	public static void init () {
+	public static void init () {		
+		Logger.debug(fname + "#init: called");
 		mutex = "";
 		
 		data_request = new Semaphore(0);
@@ -157,9 +162,14 @@ public class RPCReceiver {
 		ignorable_responses = new TreeMap<Long, SessionId>();
 		
 		(new RPCReceiveThread()).start();
+		Logger.debug(fname + "#init: started RPCReceiveThread");
 		(new RPCReceiveReaperThread()).start();
+		Logger.debug(fname + "#init: started RPCReceiveReaperThread");
 		(new RPCDataRequestHandlerThread()).start();
+		Logger.debug(fname + "#init: started RPCDataRequestHandlerThread");
 		(new RPCPushRequestHandlerThread()).start();
+		Logger.debug(fname + "#init: started RPCPushRequestHandlerThread");
+		Logger.debug(fname + "#init: complete");
 	}
 
 }

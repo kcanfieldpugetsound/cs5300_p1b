@@ -45,9 +45,10 @@ public class RPCReceiveThread extends Thread {
 	public void run () {
 		
 		while (true) {
+			Logger.debug(fname + "#run: waiting for packet on thread " + Thread.currentThread().getId());
 			//block until receive packet
 			DatagramPacket packet = DatagramService.receiveDatagramPacket();
-			
+			Logger.debug(fname + "#run: received packet");
 			//interpret packet
 			RPCMessage message = new RPCMessage(packet.getData());
 			IPAddress address = 
@@ -62,6 +63,9 @@ public class RPCReceiveThread extends Thread {
 				for (Long l : RPCReceiver.ignorable_responses.keySet()) {
 					if (RPCReceiver.ignorable_responses.get(l)
 							.equals(interpreter.sessionId())) {
+						Logger.debug
+							(fname + "#run: ignoring packet with sessionId " + 
+								interpreter.sessionId());
 						key_to_remove = l;
 						break;
 					}

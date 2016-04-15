@@ -89,6 +89,7 @@ public class Initializer {
 		/*
 		 * Initialize Remote Procedure Call service
 		 */
+		Logger.debug(fname + "#init: running RPC.init() on thread " + Thread.currentThread().getId());
 		RPC.init();
 		
 		Logger.info(fname + "#init: complete");
