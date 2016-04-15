@@ -144,6 +144,8 @@ public class Constants {
 	 */
 	public static int SERVER_INDEX;
 	
+	public static String PUBLIC_IP;
+	
 	
 	
 	/**

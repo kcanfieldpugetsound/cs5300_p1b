@@ -213,16 +213,16 @@ public class Project1bServlet extends HttpServlet {
 					
 					
 				}
-				if (request.getParameter("refresh") != null){ // get key so we can manipulate correct session obj
+				else if (request.getParameter("refresh") != null){ // get key so we can manipulate correct session obj
 					c.setValue(refresh(session)); //we need to reset the expiration time in the session
 					c.setMaxAge(Constants.SESSION_TIMEOUT_MILLISECONDS / 1000); //reset cookie expiration
 					response.addCookie(c); //readd
 				}
-				if (request.getParameter("logout") != null){ //get key so we can delete this session object
+				else if (request.getParameter("logout") != null){ //get key so we can delete this session object
 					logout(session); //delete object
 					c.setMaxAge(0); //invalidate cookie
 					response.addCookie(c);
-					response.sendRedirect("http://localhost:8080/cs5300project1b/logout.html"); //redirect to logout page
+					response.sendRedirect("http://" + Constants.PUBLIC_IP + ":8080/cs5300project1b/logout.html"); //redirect to logout page
 				}
 			}
 		}
