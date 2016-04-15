@@ -66,7 +66,7 @@ public class Initializer {
 		Constants.SERVER_FILEPATH = System.getenv("SERVER_FILEPATH");
 		Constants.SIMPLEDB_ADDRESS = System.getenv("SIMPLEDB_ADDRESS");
 		Constants.OUR_ADDRESS = new IPAddress(System.getenv("PRIVATE_IP"));
-		Constants.SERVER_INDEX = Integer.parseInt(System.getenv("SIMPLEDB_ADDRESS"));
+		Constants.SERVER_INDEX = Integer.parseInt(System.getenv("SERVER_INDEX"));
 		
 		/*
 		 * Register with SimpleDB
