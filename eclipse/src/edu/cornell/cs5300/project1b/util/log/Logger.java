@@ -24,7 +24,7 @@ public class Logger {
 		
 		mutex = "";
 		
-		(new LoggerThread()).start();
+		//(new LoggerThread()).start();
 	}
 	
 	private static void log (Level l, String msg) {
@@ -32,11 +32,13 @@ public class Logger {
 			//create log entry with level, date and time, and message, and add
 			//to queue of log messages to be pushed to disk
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-			available_log_messages.add(l.toString() + 
+//			available_log_messages.add(l.toString() + 
+//				" [ " + sdf.format(new Date()) + " ]: " + msg + " GUS_LOG");
+			System.out.println(l.toString() + 
 				" [ " + sdf.format(new Date()) + " ]: " + msg + " GUS_LOG");
 			
 			//indicate that log entry is available to be written
-			available_log.release();
+			//available_log.release();
 		}
 	}
 	
