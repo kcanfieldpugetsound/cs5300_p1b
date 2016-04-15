@@ -39,7 +39,9 @@ public class Pair<L,R> {
 	 * @param other
 	 * @return
 	 */
-	public boolean equals (Pair<L,R> other) {
+	public boolean equals (Object o) {
+		if (!(o instanceof Pair<?,?>)) return false;
+		Pair<?,?> other = (Pair<?,?>) o;
 		return left().equals(other.left()) &&
 			right().equals(other.right());
 	}

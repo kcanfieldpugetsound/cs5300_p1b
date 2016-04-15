@@ -24,7 +24,8 @@ public class SessionManager {
 	
 	/**
 	 * Queries all of the {@code servers} for the Session with the given 
-	 * {@code SessionId}, returning after the first 
+	 * {@code SessionId}, returning after the first server's response.
+	 * 
 	 * @param servers
 	 * @param id
 	 * @return
