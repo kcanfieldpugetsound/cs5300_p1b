@@ -94,7 +94,12 @@ public class SessionManager {
 		
 		//store locally
 		State.data.put(session.sessionId().toStringWithoutVersion(), session);
-		available_servers.remove(Constants.OUR_ADDRESS);
+		boolean removed = available_servers.remove(Constants.OUR_ADDRESS);
+		if (!removed) {
+			Logger.error(fname + "#setSession: did not remove our address"
+				+ " from the list of addresses; available_servers = " + available_servers.toString() + ", our address = " + Constants.OUR_ADDRESS);
+			
+		}
 		stored_servers.add(Constants.OUR_ADDRESS);
 		
 		//store at WQ - 1 other servers
