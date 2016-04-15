@@ -35,7 +35,7 @@ public class Logger {
 //			available_log_messages.add(l.toString() + 
 //				" [ " + sdf.format(new Date()) + " ]: " + msg + " GUS_LOG");
 			System.out.println(l.toString() + 
-				" [ " + sdf.format(new Date()) + " ]: " + msg + " GUS_LOG");
+				" [ " + sdf.format(new Date()) + " ] (thread + " + Thread.currentThread().getId() + "): " + msg + " GUS_LOG");
 			
 			//indicate that log entry is available to be written
 			//available_log.release();

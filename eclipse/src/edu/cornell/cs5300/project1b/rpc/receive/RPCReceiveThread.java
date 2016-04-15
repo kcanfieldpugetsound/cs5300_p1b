@@ -45,7 +45,7 @@ public class RPCReceiveThread extends Thread {
 	public void run () {
 		
 		while (true) {
-			Logger.debug(fname + "#run: waiting for packet on thread " + Thread.currentThread().getId());
+			Logger.debug(fname + "#run: waiting for packet");
 			//block until receive packet
 			DatagramPacket packet = DatagramService.receiveDatagramPacket();
 			Logger.debug(fname + "#run: received packet");
