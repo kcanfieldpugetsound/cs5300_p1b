@@ -94,6 +94,7 @@ public class RPC {
 		final Thread timeoutThread = (new Thread () {
 			public void run () {
 				try {
+					Logger.debug(fname + "#pushData (timeoutThread): starting");
 					Thread.sleep(Constants.ACK_TIMEOUT_MILLISECONDS);
 					Logger.debug(fname + "#pushData (timeoutThread): timeout; "
 						+ "interrupting main thrad");
