@@ -81,7 +81,11 @@ public class IPAddress {
 	 * @return whether or not both {@code this} and {@code other} represent 
 	 * the same IP Address
 	 */
-	public boolean equals (IPAddress other) {
-		return toString().equals(other.toString());
+	public boolean equals (Object other) {
+		if (!(other instanceof IPAddress))
+			return false;
+		else
+		
+		return toString().equals(((IPAddress)other).toString());
 	}
 }
