@@ -19,9 +19,11 @@ sudo echo 'export R=2' >> /tmp/profile
 sudo echo 'export N=2' >> /tmp/profile
 sudo echo 'export F=1' >> /tmp/profile
 
+IP_pub_addr=$(ec2-metadata -v | cut -d  ':' -f 2 | sed 's/^.\{1\}//')
 IP_addr=$(ec2-metadata -o | cut -d  ':' -f 2 | sed 's/^.\{1\}//')
 Server_index=$(ec2-metadata -l | cut -d  ':' -f 2 | sed 's/^.\{1\}//')
 
+sudo echo "export PUBLIC_IP=$IP_pub_addr" >> /tmp/profile
 sudo echo "export PRIVATE_IP=$IP_addr" >> /tmp/profile
 sudo echo "export SERVER_INDEX=$Server_index" >> /tmp/profile
 
@@ -41,6 +43,7 @@ sudo echo 'R=2' >> tomcat8.conf
 sudo echo 'N=2' >> tomcat8.conf
 sudo echo 'F=1' >> tomcat8.conf
 
+sudo echo "PUBLIC_IP=$IP_pub_addr" >> tomcat8.conf
 sudo echo "PRIVATE_IP=$IP_addr" >> tomcat8.conf
 sudo echo "SERVER_INDEX=$Server_index" >> tomcat8.conf
 

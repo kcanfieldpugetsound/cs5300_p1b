@@ -59,7 +59,7 @@ public class Initializer {
 		Constants.F = Integer.parseInt(System.getenv("F"));
 		Constants.N = Integer.parseInt(System.getenv("N"));
 		Constants.REBOOT_ID = Integer.parseInt(System.getenv("N"));
-		Constants.RPC_PORT = 61392;//Integer.parseInt(System.getenv("RPC_PORT"));
+		Constants.RPC_PORT = 61400;//Integer.parseInt(System.getenv("RPC_PORT"));
 		Constants.SESSION_TIMEOUT_MILLISECONDS = Integer.parseInt(System.getenv("SESSION_TIMEOUT_MILLISECONDS"));
 		Constants.ACK_TIMEOUT_MILLISECONDS = Integer.parseInt(System.getenv("ACK_TIMEOUT_MILLISECONDS"));
 		Constants.MAX_MESSAGE_SIZE = Integer.parseInt(System.getenv("MAX_MESSAGE_SIZE"));
@@ -67,6 +67,7 @@ public class Initializer {
 		Constants.SIMPLEDB_ADDRESS = System.getenv("SIMPLEDB_ADDRESS");
 		Constants.OUR_ADDRESS = new IPAddress(System.getenv("PRIVATE_IP"));
 		Constants.SERVER_INDEX = Integer.parseInt(System.getenv("SERVER_INDEX"));
+		Constants.PUBLIC_IP = System.getenv("PUBLIC_IP");
 		
 		/*
 		 * Register with SimpleDB
