@@ -33,7 +33,7 @@ public class Logger {
 			//to queue of log messages to be pushed to disk
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 			available_log_messages.add(l.toString() + 
-				" [ " + sdf.format(new Date()) + " ]: " + msg + "\n");
+				" [ " + sdf.format(new Date()) + " ]: " + msg + " GUS_LOG");
 			
 			//indicate that log entry is available to be written
 			available_log.release();
