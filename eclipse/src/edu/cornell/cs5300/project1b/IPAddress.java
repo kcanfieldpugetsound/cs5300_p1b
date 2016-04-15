@@ -46,10 +46,10 @@ public class IPAddress {
 		System.out.println("components length is " + components.length);
 		System.out.println("Components[0] is " + components[0]);
 		
-		bytes[0] = Byte.parseByte(components[0]);
-		bytes[1] = Byte.parseByte(components[1]);
-		bytes[2] = Byte.parseByte(components[2]);
-		bytes[3] = Byte.parseByte(components[3]);
+		bytes[0] = (byte) Integer.parseInt(components[0]);
+		bytes[1] = (byte) Integer.parseInt(components[1]);
+		bytes[2] = (byte) Integer.parseInt(components[2]);
+		bytes[3] = (byte) Integer.parseInt(components[3]);
 	}
 	
 	/**
