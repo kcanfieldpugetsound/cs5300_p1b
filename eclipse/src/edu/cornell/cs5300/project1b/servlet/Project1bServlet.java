@@ -95,7 +95,7 @@ public class Project1bServlet extends HttpServlet {
 					Session session = SessionManager.getSession(dataStore, sid);
 					
 					if (session == null)
-						response.sendRedirect("http://localhost:8080/cs5300project1b/crash.html");
+						response.sendRedirect("http://"+ Constants.PUBLIC_IP+":8080/project1b/crash.html");
 					
 					else{
 						
@@ -108,7 +108,7 @@ public class Project1bServlet extends HttpServlet {
 								"<body bgcolor=\"#fdf5e6\">\n" +
 								"<p> NetID: jf446\tSession: " + session.sessionId().sessNum() + "\tVersion: " + session.sessionId().versionNum() + "\tDate: " + (new Date().toString()) +
 								"<h1>" + session.userData().getMessage() + "</h1>\n" +
-								"<form action=\"http://localhost:8080/cs5300project1b/Project1bServlet\" method=\"post\">New Message (No Underscores Allowed): "
+								"<form action=\"http://"+ Constants.PUBLIC_IP+":8080/project1b/Project1bServlet\" method=\"post\">New Message (No Underscores Allowed): "
 								+ "<input type = \"text\" name=\"message\"><br>"
 								+ "<INPUT TYPE=\"submit\" name=\"Load New Message\" value=\"Load New Message\">"
 								+ "<br><br><input type=\"submit\" name=\"refresh\" value=\"Refresh\">"
@@ -147,7 +147,7 @@ public class Project1bServlet extends HttpServlet {
 							"<body bgcolor=\"#fdf5e6\">\n" +
 							"<p> NetIDs: jf446, ktc36, gmd68\tSession: " + sid.sessNum() + "\tVersion: " + sid.versionNum() + "\tDate: " + (new Date().toString()) +
 							"<h1>" + userData.getMessage() + "</h1>\n" +
-							"<form action=\"http://localhost:8080/cs5300project1b/Project1bServlet\" method=\"post\">New Message (No Underscores Allowed): "
+							"<form action=\"http://"+ Constants.PUBLIC_IP+":8080/project1b/Project1bServlet\" method=\"post\">New Message (No Underscores Allowed): "
 							+ "<input type = \"text\" name=\"message\"><br>"
 							+ "<INPUT TYPE=\"submit\" name=\"Load New Message\" value=\"Load New Message\">"
 							+ "<br><br><input type=\"submit\" name=\"refresh\" value=\"Refresh\">"
@@ -222,7 +222,7 @@ public class Project1bServlet extends HttpServlet {
 					logout(session); //delete object
 					c.setMaxAge(0); //invalidate cookie
 					response.addCookie(c);
-					response.sendRedirect("http://" + Constants.PUBLIC_IP + ":8080/cs5300project1b/logout.html"); //redirect to logout page
+					response.sendRedirect("http://" + Constants.PUBLIC_IP + ":8080/project1b/logout.html"); //redirect to logout page
 				}
 			}
 		}
