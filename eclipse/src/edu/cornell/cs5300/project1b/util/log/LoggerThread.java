@@ -16,13 +16,11 @@ public class LoggerThread extends Thread {
 				
 				try {
 					//true -> append to file
-					FileWriter w = new FileWriter(new File(Constants.LOG_FILEPATH), true);
+					//FileWriter w = new FileWriter(new File(Constants.LOG_FILEPATH), true);
+					//w.write(Logger.available_log_messages.poll());
+					System.out.println(Logger.available_log_messages.poll()); //FIXME
 					
-					if (Logger.available_log_messages.size() != 0) {
-						w.write(Logger.available_log_messages.poll());
-					}
-					
-					w.close();
+					//w.close();
 					
 				} catch (Exception e) {} //if we can't write it, oh well
 			}
