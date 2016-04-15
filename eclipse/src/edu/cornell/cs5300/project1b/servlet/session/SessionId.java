@@ -216,10 +216,12 @@ public class SessionId {
 	 * Two SessionIds are equal iff all three of their components are equal. 
 	 * Note that the serverId()s are checked for structural equality.
 	 * 
-	 * @param other SessionId to compare {@code this} to.
+	 * @param other object to compare {@code this} to.
 	 * @return whether or not {@code this} equals {@code other}
 	 */
-	public boolean equals (SessionId other) {
+	public boolean equals (Object o) {
+		if (!(o instanceof SessionId)) return false;
+		SessionId other = (SessionId) o;
 		return 
 			serverId().equals(other.serverId()) &&
 			sessNum() == other.sessNum() &&
