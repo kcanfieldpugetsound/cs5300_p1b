@@ -93,6 +93,9 @@ public class SimpleDBInterface {
 			GetAttributesResult result = getIPAddress(itemName);
 			String ipAddressString = "";
 			
+			if (result.getAttributes().isEmpty())
+				break;
+			
 			Attribute a = result.getAttributes().get(0);
 			if(a.getName().equals("private_IP")) {
 				ipAddressString = a.getValue();
