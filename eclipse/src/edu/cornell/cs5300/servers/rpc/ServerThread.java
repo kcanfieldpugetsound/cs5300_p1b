@@ -7,37 +7,50 @@ import java.net.SocketException;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import edu.cornell.cs5300.project1b.Constants;
+import edu.cornell.cs5300.project1b.rpc.message.RPCMessage;
+import edu.cornell.cs5300.project1b.rpc.message.RPCMessageInterpreter;
 
 public class ServerThread extends Thread{
 	
-	protected static DatagramSocket socket = null;
-	public static ConcurrentLinkedQueue<DatagramPacket> push_requests = new ConcurrentLinkedQueue<DatagramPacket>();
-	public static ConcurrentLinkedQueue<DatagramPacket> data_requests = new ConcurrentLinkedQueue<DatagramPacket>();
 	
-	public static void init(){
-		try {
-			socket = new DatagramSocket(Constants.RPC_PORT);
-		} catch (SocketException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			}
-	}
+	
+	
 	
 	public void run(){
 		while (true){
-			byte[] payload = new byte[Constants.MAX_MESSAGE_SIZE];
-			DatagramPacket packet = new DatagramPacket(payload, payload.length);
+			byte[] buf = new byte[Constants.MAX_MESSAGE_SIZE];
+			DatagramPacket packet = new DatagramPacket(buf, buf.length);
 			
 			try {
-				socket.receive(packet);
+				Server.socket.receive(packet);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				continue;
 			}
 			
+			buf = packet.getData();
+			
+			RPCMessage message = new RPCMessage(buf);
+			RPCMessageInterpreter interpreter = new RPCMessageInterpreter(message);
+			
+			switch(interpreter.type()){
+			case DATA_REQUEST:
+				Server.data_requests.add(packet);
+				break;
+			case PUSH_REQUEST:
+				Server.push_requests.add(packet);
+				break;
+				default:
+					continue;
+			
+			}
+			
+			
 			
 		}
 	}
+	
+	
 
 }
