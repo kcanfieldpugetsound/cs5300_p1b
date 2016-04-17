@@ -53,7 +53,9 @@ public class SessionManager {
 		//if we have the data, that's a lot faster, so use it
 		if (servers.contains(Constants.OUR_ADDRESS)) {
 			Logger.debug(fname + "#getSession: using local data for id " + id);
-			return State.data.get(id.toStringWithoutVersion());
+			Session session = State.data.get(id.toStringWithoutVersion());
+			if (session != null)
+				return session;
 		}
 			
 		//else we have to query each server, one at a time
