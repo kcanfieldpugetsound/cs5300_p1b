@@ -10,6 +10,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import edu.cornell.cs5300.project1b.Constants;
 import edu.cornell.cs5300.project1b.rpc.message.RPCMessage;
+import edu.cornell.cs5300.project1b.rpc.message.RPCMessageInterpreter;
 import edu.cornell.cs5300.project1b.util.log.Logger;
 
 /*
@@ -23,18 +24,11 @@ import edu.cornell.cs5300.project1b.util.log.Logger;
 
 public class ClientThread extends Thread{
 
-	private static DatagramSocket clientSocket;
+
 	private static final String fname = "edu.cornell.cs5300.servers.rpc";
-	private static ConcurrentLinkedQueue<DatagramPacket> packetQueue;
-		
+			
 	public static void init(){
-		try {
-			clientSocket = new DatagramSocket(6300);
-			packetQueue = new ConcurrentLinkedQueue<DatagramPacket>();
-		} catch (SocketException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			}
+
 	}
 	
 	/*
@@ -43,14 +37,29 @@ public class ClientThread extends Thread{
 	 */
 	public void run(){
 		while (true){
-			DatagramPacket newPacket = new DatagramPacket(new byte[Constants.MAX_MESSAGE_SIZE], Constants.MAX_MESSAGE_SIZE);
+			DatagramPacket packet = new DatagramPacket(new byte[Constants.MAX_MESSAGE_SIZE], Constants.MAX_MESSAGE_SIZE);
 			try {
-				clientSocket.receive(newPacket);
+				Client.clientSocket.receive(packet);
 				Logger.debug(fname + "#receiveDatagramPacket: received packet");
 				//force payload to be only as large as necessary
-				byte[] payload = new byte[newPacket.getLength()];
-				System.arraycopy(newPacket.getData(), 0, payload, 0, newPacket.getLength());
+				byte[] payload = new byte[packet.getLength()];
+				System.arraycopy(packet.getData(), 0, payload, 0, packet.getLength());
 				//we know this is a response
+				
+				RPCMessage msg = new RPCMessage(payload);
+				RPCMessageInterpreter interpreter = new RPCMessageInterpreter(msg);
+				
+				switch(interpreter.type()){
+				case DATA_RESPONSE:
+					Client.data_responses.add(packet);
+					break;
+				case PUSH_RESPONSE:
+					Client.push_responses.add(packet);
+					break;
+				default:
+					continue;
+				
+				}
 				
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -59,9 +68,6 @@ public class ClientThread extends Thread{
 	}
 	
 	
-	private boolean sendPacket(DatagramPacket packet)
-	{
-		return true;
-	}
+
 	
 }
