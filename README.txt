@@ -69,26 +69,43 @@ A thread for handling PUSH_REQUEST messages received and stored in RPCReceiver.
 
 ** RPCMessage.java
 
+A class which sends 4 types of messages: data requests, data responses, push requests, and push responses
+The class consists of a message type, as well as a payload, interpreted differently by type. This is the data sent in packets
+
 
 ** RPCMessageFactory.java
+
+This class initializes instances of RPC Messages. It converts the SessionId, and potentially UserData, into byte[] payloads, and figures out the correct setup
 
 
 ** RPCMessageInterpreter.java
 
+This class reads data packets, and passes on the information of what the packet requires. 
+
 
 ** RPCReceiver.java
+
+This class initializes the data for the packet receiver. This class also processes received packets on a queue. It takes in packets from servers sending data to it. 
 
 
 ** RPCReceiveThread.java
 
+This class receives messages, parses them, and assigns them to a queue to be processed. 
+
 
 ** RPCReceiveReaperThread.java
+
+This class removes expired requests (Session timed out). 
 
 
 ** RPCSender.java
 
+This is the sending analogue of the receiver, taking data from the current client, and pushing the required action and corresponding data to a list of servers. 
+
 
 ** RPCSenderThread.java
+
+This sends packets taken from the pool of packets to send filled up the RPCSender class. It tries for a set number of times, then moves on to the next packet. 
 
 
 ** DatagramService.java
