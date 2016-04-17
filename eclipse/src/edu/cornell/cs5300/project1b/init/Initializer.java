@@ -46,7 +46,7 @@ public class Initializer {
 		/*
 		 * Initialize the Logger
 		 */
-		Logger.init();
+		//Logger.init();
 		
 		
 		
@@ -59,7 +59,7 @@ public class Initializer {
 		Constants.F = Integer.parseInt(System.getenv("F"));
 		Constants.N = Integer.parseInt(System.getenv("N"));
 		Constants.REBOOT_ID = Integer.parseInt(System.getenv("N"));
-		Constants.RPC_PORT = 61400;//Integer.parseInt(System.getenv("RPC_PORT"));
+		Constants.RPC_PORT = Integer.parseInt(System.getenv("RPC_PORT"));
 		Constants.SESSION_TIMEOUT_MILLISECONDS = Integer.parseInt(System.getenv("SESSION_TIMEOUT_MILLISECONDS"));
 		Constants.ACK_TIMEOUT_MILLISECONDS = Integer.parseInt(System.getenv("ACK_TIMEOUT_MILLISECONDS"));
 		Constants.MAX_MESSAGE_SIZE = Integer.parseInt(System.getenv("MAX_MESSAGE_SIZE"));
