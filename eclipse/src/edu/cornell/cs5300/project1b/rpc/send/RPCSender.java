@@ -92,7 +92,7 @@ public class RPCSender {
 			byte[] payload = message.serialize();
 			
 			DatagramPacket packet = 
-				new DatagramPacket(payload, payload.length, addr, Constants.RPC_PORT);
+				new DatagramPacket(payload, payload.length, addr, 5697);
 			
 			synchronized (mutex) {
 				send_ready_packets.add(packet);
@@ -134,7 +134,7 @@ public class RPCSender {
 			byte[] payload = message.serialize();
 			
 			DatagramPacket packet = 
-				new DatagramPacket(payload, payload.length, addr, Constants.RPC_PORT);
+				new DatagramPacket(payload, payload.length, addr, 5697);
 
 			synchronized (mutex) {
 				send_ready_packets.add(packet);
@@ -178,7 +178,7 @@ public class RPCSender {
 			byte[] payload = message.serialize();
 			
 			DatagramPacket packet = 
-				new DatagramPacket(payload, payload.length, addr, Constants.RPC_PORT);
+				new DatagramPacket(payload, payload.length, addr, 5697);
 
 			synchronized (mutex) {
 				send_ready_packets.add(packet);
@@ -219,7 +219,7 @@ public class RPCSender {
 			byte[] payload = message.serialize();
 			
 			DatagramPacket packet = 
-				new DatagramPacket(payload, payload.length, addr, Constants.RPC_PORT);
+				new DatagramPacket(payload, payload.length, addr, 5697);
 
 			synchronized (mutex) {
 				send_ready_packets.add(packet);

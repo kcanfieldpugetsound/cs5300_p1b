@@ -43,7 +43,7 @@ public class RPCSenderThread extends Thread {
 			synchronized(RPCSender.mutex) {
 				//grab the packet
 				DatagramPacket packet = RPCSender.send_ready_packets.poll();
-				
+				packet.setPort(5697);
 				//try to send it up to DATAGRAM_SEND_ATTEMPTS times
 				boolean success = false;
 				for (int i = 0; i < DATAGRAM_SEND_ATTEMPTS; i++) {

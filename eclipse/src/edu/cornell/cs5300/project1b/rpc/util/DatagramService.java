@@ -6,6 +6,7 @@ import java.net.DatagramSocket;
 import java.net.SocketException;
 
 import edu.cornell.cs5300.project1b.Constants;
+import edu.cornell.cs5300.project1b.rpc.message.RPCMessage;
 import edu.cornell.cs5300.project1b.util.log.Logger;
 
 /**
@@ -31,6 +32,8 @@ public class DatagramService {
 		"edu.cornell.cs5300.project1b.rpc.util.DatagramService";
 	
 	private static DatagramSocket socket;
+	private static DatagramSocket senderSocket;
+	private static DatagramSocket firstSocket;//catches all received packets
 	
 	/**
 	 * Fully initializes the {@code DatagramService}.
@@ -39,9 +42,11 @@ public class DatagramService {
 		Logger.debug(fname + "#init: called");
 		try {
 			socket = new DatagramSocket(Constants.RPC_PORT);
+			senderSocket = new DatagramSocket();//the sender has to be on a different socket than the receiver, use any empty port
+			firstSocket = new DatagramSocket(5697);
 		} catch (SocketException e) {
 			Logger.fatal(fname + "#init: failed to open socket on port " + 
-				Constants.RPC_PORT + ", exception: " + e.toString());
+				Constants.RPC_PORT + ", exception: " + e.toString() + " OR senderSocket at"+senderSocket.getPort());
 			throw new RuntimeException("socket initialization failed");
 		}
 	}
@@ -63,8 +68,27 @@ public class DatagramService {
 //			socket.close();
 //			init();
 //		}
+		
 		try {
-			socket.send(packet);
+
+			byte[] payload = new byte[packet.getLength()];
+			System.arraycopy(packet.getData(), 0, payload, 0, packet.getLength());
+			
+			byte typeOfMsgByte = payload[0];
+			switch (typeOfMsgByte){
+				case (byte)0://DATA_REQUEST
+				case (byte)2://PUSH_REQUEST	
+					senderSocket.send(packet);
+					break;
+				case (byte)1://DATA_RESPONSE
+				case (byte)3://PUSH_RESPONSE	
+					socket.send(packet);
+					break;
+				default:
+					return false;
+						
+			}
+		
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -92,14 +116,37 @@ public class DatagramService {
 //		}
 		try {
 			DatagramPacket received = new DatagramPacket(new byte[Constants.MAX_MESSAGE_SIZE], Constants.MAX_MESSAGE_SIZE);
-			socket.receive(received);
+			
+			firstSocket.receive(received);
+			
 			Logger.debug(fname + "#receiveDatagramPacket: received packet");
 			
 			//force payload to be only as large as necessary
 			byte[] payload = new byte[received.getLength()];
 			System.arraycopy(received.getData(), 0, payload, 0, received.getLength());
 			
-			return new DatagramPacket(payload, payload.length, received.getAddress(), Constants.RPC_PORT);
+//			case DATA_REQUEST:
+//			return (byte) 0;
+//		case DATA_RESPONSE:
+//			return (byte) 1;
+//		case PUSH_REQUEST:
+//			return (byte) 2;
+//		case PUSH_RESPONSE:
+//			return (byte) 3;
+			
+			//find out the message type for port-forwarding
+			byte typeOfMsgByte = payload[0];
+			switch (typeOfMsgByte){
+				case (byte)0://DATA_REQUEST
+				case (byte)2://PUSH_REQUEST	
+					return new DatagramPacket(payload, payload.length, received.getAddress(), Constants.RPC_PORT);
+				case (byte)1://DATA_RESPONSE
+				case (byte)3://PUSH_RESPONSE	
+					return new DatagramPacket(payload, payload.length, received.getAddress(), senderSocket.getPort());
+				default:
+					return null;
+			}
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
