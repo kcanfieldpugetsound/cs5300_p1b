@@ -11,5 +11,7 @@ INC_REBOOT=$(( $REBOOT_ID + 1 ))
 echo "export REBOOT_ID=$INC_REBOOT" >> /tmp/profile
 sudo bash -c 'cat /tmp/profile >> /etc/profile'
 sudo bash -c 'cat tomcat8.conf >> /etc/tomcat8/tomcat8.conf'
+sudo kill $(sudo lsof -t -i:5300)
 source /etc/profile
+nohup sleep 300 &
 sudo service tomcat8 restart

@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 import edu.cornell.cs5300.project1b.Constants;
 import edu.cornell.cs5300.project1b.IPAddress;
+import edu.cornell.cs5300.project1b.db.SimpleDBInterface;
 import edu.cornell.cs5300.project1b.util.log.Logger;
 
 /**
@@ -41,6 +42,9 @@ public class ServerFileInterface {
 	 */
 	public static List<IPAddress> getServers () {
 		Logger.debug(fname + "#getServers: attempting to get server list");
+		
+		List<IPAddress> newServers = SimpleDBInterface.getServerList();
+		
 		try {
 			List<IPAddress> servers = new ArrayList<IPAddress>();
 			Scanner sc = new Scanner(new File(Constants.SERVER_FILEPATH));
@@ -52,6 +56,10 @@ public class ServerFileInterface {
 				}
 			}
 			sc.close();
+			for (IPAddress ip : newServers){
+				if (!servers.contains(ip))
+					servers.add(ip);
+			}
 			return servers;
 		} catch (FileNotFoundException e) {
 			Logger.error
