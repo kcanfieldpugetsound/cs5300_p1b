@@ -12,37 +12,14 @@ import edu.cornell.cs5300.project1b.rpc.receive.RPCReceiver;
 import edu.cornell.cs5300.project1b.rpc.send.RPCSender;
 import edu.cornell.cs5300.project1b.servlet.session.Session;
 import edu.cornell.cs5300.project1b.servlet.session.SessionId;
-import edu.cornell.cs5300.project1b.servlet.session.UserData;
-
-import edu.cornell.cs5300.project1b.servlet.State;
 import edu.cornell.cs5300.project1b.util.Pair;
 import edu.cornell.cs5300.project1b.util.log.Logger;
+import edu.cornell.cs5300.project1b.servlet.session.UserData;
 
-/**
- * A thread for handling {@link 
- * edu.cornell.cs5300.project1b.rpc.message.RPCMessage.Type DATA_REQUEST} 
- * messages received and stored in 
- * {@link edu.cornell.cs5300.rpc.receive.RPCReceiver RPCReceiver}.
- * 
- * @see #run()
- * 
- * @author gus
- *
- */
-public class DataRequestHandlerThread extends Thread {
+public class PushRequestHandlerThread extends Thread{
 	
 	private static final String fname = 
-		"edu.cornell.cs5300.project1b.rpc.handle.RPCDataRequestHandlerThread";
-	
-	/**
-	 * Waits for {@link 
-	 * edu.cornell.cs5300.project1b.rpc.message.RPCMessage.Type DATA_REQUEST} 
-	 * messages from {@link edu.cornell.cs5300.rpc.receive.RPCReceiver 
-	 * RPCReceiver}, retrieves the data from the 
-	 * {@link edu.cornell.cs5300.project1b.servlet.State State}, and responds
-	 * to the requesting server with that data. Does not respond if this
-	 * server does not have the requested data.
-	 */
+			"edu.cornell.cs5300.servers.rpc.DataRequestHandlerThread";
 	public void run () {
 		while (true) {
 			//wait for a data request to come in
@@ -52,16 +29,18 @@ public class DataRequestHandlerThread extends Thread {
 			
 			
 			while (packet == null){
-				packet = Server.data_requests.poll();
+				packet = Server.push_requests.poll();
 			}
 			
 			RPCMessage message = new RPCMessage(packet.getData());
 			RPCMessageInterpreter interpreter = new RPCMessageInterpreter(message);
 			
 			SessionId sid = interpreter.sessionId();
+			UserData userData = interpreter.userData();
 			
-			Session session = edu.cornell.cs5300.project1b.servlet.State.data.get(sid.toStringWithoutVersion());
+			Session session = new Session(sid, userData);
 			
+			edu.cornell.cs5300.project1b.servlet.State.data.put(sid.toStringWithoutVersion(), session);
 			
 			
 			
@@ -83,9 +62,9 @@ public class DataRequestHandlerThread extends Thread {
 			
 			//respond with that data if we have it; log an error if we don't
 			//this should never happen barring exceptional circumstances
-			if (session != null) {
+			
 				RPCMessage msg = 
-						RPCMessageFactory.createRPCMessage(RPCMessage.Type.DATA_RESPONSE, session.sessionId(), session.userData());
+						RPCMessageFactory.createRPCMessage(RPCMessage.Type.PUSH_RESPONSE, session.sessionId());
 				byte[] payload = msg.serialize();
 				packet = new DatagramPacket(payload, payload.length, packet.getAddress(), packet.getPort());
 				
@@ -94,18 +73,18 @@ public class DataRequestHandlerThread extends Thread {
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+					Logger.error(fname + "#error: IOerror on this server when trying to store data and return acknowledgement.");
 					continue;
 				}
 				
 				/*RPCSender.sendDataResponse
 					(server, session.sessionId(), session.userData()); */
-			} else {
-				Logger.error(fname + "#run: session with id '" + 
+			
+				Logger.debug(fname + "#run: session with id '" + 
 					sid.toString() + 
-					"' not found on this server");
+					"' stored on this server");
 				
-			}
+			
 		}
 	}
-
 }
