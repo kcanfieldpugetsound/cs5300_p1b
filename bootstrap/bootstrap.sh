@@ -22,7 +22,8 @@ IP_addr=$(ec2-metadata -o | cut -d  ':' -f 2 | sed 's/^.\{1\}//')
 Server_index=$(ec2-metadata -l | cut -d  ':' -f 2 | sed 's/^.\{1\}//')
 RPC_PORT=5300
 MAX_MESSAGE_SIZE=1024
-SESSION_TIMEOUT_MILLISECONDS=86400000
+SESSION_TIMEOUT_MILLISECONDS=600
+
 ACK_TIMEOUT_MILLISECONDS=2000
 REBOOT_ID=0
 SERVER_FILEPATH='servers.txt'
