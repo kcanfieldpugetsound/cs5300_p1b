@@ -1,6 +1,5 @@
 #! /bin/bash
 
-
 #mkdir cs5300_p1
 #cd cs5300_p1
 #touch config.csv
@@ -13,47 +12,59 @@ sudo echo "export AWS_SECRET_ACCESS_KEY=toXaBtobc78s5Ku6XKESco0ylWrgqI77oaSohPYj
 
 # set environment vars for W, WQ, R, N, F, RPC_PORT, MAX_MESSAGE_SIZE, SESSION_TIMEOUT_MILLIS
 # ACK_TIMEOUT_MILLISECONDS, REBOOT_ID, SERVER_FILEPATH, and SIMPLEDB_ADDRESS
-sudo echo 'export W=2' >> /tmp/profile
-sudo echo 'export WQ=2' >> /tmp/profile
-sudo echo 'export R=2' >> /tmp/profile
-sudo echo 'export N=2' >> /tmp/profile
-sudo echo 'export F=1' >> /tmp/profile
-
+W=2
+WQ=2
+R=2
+N=2
+F=1
 IP_pub_addr=$(ec2-metadata -v | cut -d  ':' -f 2 | sed 's/^.\{1\}//')
 IP_addr=$(ec2-metadata -o | cut -d  ':' -f 2 | sed 's/^.\{1\}//')
 Server_index=$(ec2-metadata -l | cut -d  ':' -f 2 | sed 's/^.\{1\}//')
+RPC_PORT=5300
+MAX_MESSAGE_SIZE=1024
+SESSION_TIMEOUT_MILLISECONDS=86400000
+ACK_TIMEOUT_MILLISECONDS=2000
+REBOOT_ID=0
+SERVER_FILEPATH='servers.txt'
+SIMPLEDB_ADDRESS='/stub/address/to/db'
+
+sudo echo "export W=$W" >> /tmp/profile
+sudo echo "export WQ=$WQ" >> /tmp/profile
+sudo echo "export R=$R" >> /tmp/profile
+sudo echo "export N=$N" >> /tmp/profile
+sudo echo "export F=$F" >> /tmp/profile
 
 sudo echo "export PUBLIC_IP=$IP_pub_addr" >> /tmp/profile
 sudo echo "export PRIVATE_IP=$IP_addr" >> /tmp/profile
 sudo echo "export SERVER_INDEX=$Server_index" >> /tmp/profile
 
-sudo echo 'export RPC_PORT=5300' >> /tmp/profile
-sudo echo 'export MAX_MESSAGE_SIZE=1024' >> /tmp/profile
-sudo echo 'export SESSION_TIMEOUT_MILLISECONDS=86400000' >> /tmp/profile
-sudo echo 'export ACK_TIMEOUT_MILLISECONDS=2000' >> /tmp/profile
-sudo echo 'export REBOOT_ID=0' >> /tmp/profile
-sudo echo 'export SERVER_FILEPATH=servers.txt' >> /tmp/profile
-sudo echo 'export SIMPLEDB_ADDRESS=/stub/address/to/db' >> /tmp/profile
+sudo echo "export RPC_PORT=$RPC_PORT" >> /tmp/profile
+sudo echo "export MAX_MESSAGE_SIZE=$MAX_MESSAGE_SIZE" >> /tmp/profile
+sudo echo "export SESSION_TIMEOUT_MILLISECONDS=$SESSION_TIMEOUT_MILLISECONDS" >> /tmp/profile
+sudo echo "export ACK_TIMEOUT_MILLISECONDS=$ACK_TIMEOUT_MILLISECONDS" >> /tmp/profile
+sudo echo "export REBOOT_ID=$REBOOT_ID" >> /tmp/profile
+sudo echo "export SERVER_FILEPATH=$SERVER_FILEPATH" >> /tmp/profile
+sudo echo "export SIMPLEDB_ADDRESS=$SIMPLEDB_ADDRESS" >> /tmp/profile
 
 touch tomcat8.conf
 
-sudo echo 'W=2' >> tomcat8.conf
-sudo echo 'WQ=2' >> tomcat8.conf
-sudo echo 'R=2' >> tomcat8.conf
-sudo echo 'N=2' >> tomcat8.conf
-sudo echo 'F=1' >> tomcat8.conf
+sudo echo "W=$W" >> tomcat8.conf
+sudo echo "WQ=$WQ" >> tomcat8.conf
+sudo echo "R=$R" >> tomcat8.conf
+sudo echo "N=$N" >> tomcat8.conf
+sudo echo "F=$F" >> tomcat8.conf
 
 sudo echo "PUBLIC_IP=$IP_pub_addr" >> tomcat8.conf
 sudo echo "PRIVATE_IP=$IP_addr" >> tomcat8.conf
 sudo echo "SERVER_INDEX=$Server_index" >> tomcat8.conf
 
-sudo echo 'RPC_PORT=5300' >> tomcat8.conf
-sudo echo 'MAX_MESSAGE_SIZE=1024' >> tomcat8.conf
-sudo echo 'SESSION_TIMEOUT_MILLISECONDS=86400000' >> tomcat8.conf
-sudo echo 'ACK_TIMEOUT_MILLISECONDS=2000' >> tomcat8.conf
-sudo echo 'REBOOT_ID=0' >> tomcat8.conf
-sudo echo 'SERVER_FILEPATH=servers.txt' >> tomcat8.conf
-sudo echo 'SIMPLEDB_ADDRESS=/stub/address/to/db' >> tomcat8.conf
+sudo echo "RPC_PORT=$RPC_PORT" >> tomcat8.conf
+sudo echo "MAX_MESSAGE_SIZE=$MAX_MESSAGE_SIZE" >> tomcat8.conf
+sudo echo "SESSION_TIMEOUT_MILLISECONDS=$SESSION_TIMEOUT_MILLISECONDS" >> tomcat8.conf
+sudo echo "ACK_TIMEOUT_MILLISECONDS=$ACK_TIMEOUT_MILLISECONDS" >> tomcat8.conf
+sudo echo "REBOOT_ID=$REBOOT_ID" >> tomcat8.conf
+sudo echo "SERVER_FILEPATH=$SERVER_FILEPATH" >> tomcat8.conf
+sudo echo "SIMPLEDB_ADDRESS=$SIMPLEDB_ADDRESS" >> tomcat8.conf
 
 
 sudo bash -c 'cat /tmp/profile >> /etc/profile'

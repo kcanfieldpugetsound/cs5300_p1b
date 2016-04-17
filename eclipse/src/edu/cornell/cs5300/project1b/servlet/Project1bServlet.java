@@ -47,7 +47,7 @@ public class Project1bServlet extends HttpServlet {
     @Override
 	public void init() {
     	Logger.info(fname + "#init: performing server initialization");
-		Initializer.init();
+		//Initializer.init();
 	}
 
 	/**
@@ -223,7 +223,6 @@ public class Project1bServlet extends HttpServlet {
 					c.setMaxAge(0); //invalidate cookie
 					response.addCookie(c);
 					response.sendRedirect("http://" + Constants.PUBLIC_IP + ":8080/project1b/logout.html"); //redirect to logout page
-					return;
 				}
 			}
 		}
