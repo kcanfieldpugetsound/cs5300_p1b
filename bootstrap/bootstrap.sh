@@ -90,6 +90,6 @@ sudo cp project1b.war /var/lib/tomcat8/webapps
 
 # copies jar file dependencies into project in tomcat
 aws s3 cp s3://edu-cornell-cs-cs5300s16-project1b/jars/ . --recursive
-sudo cp *.jar /var/lib/tomcat8/webapps/project1b/WEB-INF/lib
+# sudo cp *.jar /var/lib/tomcat8/webapps/project1b/WEB-INF/lib
 sudo cp *.jar /usr/share/tomcat8/lib/
 sudo service tomcat8 start
