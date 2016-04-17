@@ -18,6 +18,9 @@ My s3 bucket has all the dependencies we need. See bootstrap.sh. Permissions hav
 ---------------------------------
 This file should include anything we need to know to grade your assignment. In particular, it should briefly describe the overall structure of your solution, including formats of your cookies and RPC messages; and specify what functionality is implemented in each source file. 
 If you implemented extra credit options, describe the changes you needed to make.
+
+Please visit http://<public IP / DNS>:8080/project1b/Project1bServlet to visit our site.
+
 Overall structure:
 Cookie Format:
 Cookie name is CS5300Project1BSession
