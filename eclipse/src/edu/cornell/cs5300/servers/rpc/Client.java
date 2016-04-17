@@ -52,7 +52,7 @@ public class Client {
 			RPCMessageInterpreter interpreter = new RPCMessageInterpreter(m);
 			SessionId responseSessionID = interpreter.sessionId();
 			
-			if(id.toStringWithoutVersion().equals(responseSessionID))
+			if(id.toStringWithoutVersion().equals(responseSessionID.toStringWithoutVersion()))
 			{
 				return new Session(id,interpreter.userData());
 			}
@@ -67,10 +67,17 @@ public class Client {
 		Object[] acks= push_responses.toArray();
 		for(int j=0; j<acks.length; j++)
 		{
+			RPCMessage m = new RPCMessage(((DatagramPacket)acks[j]).getData());
+			RPCMessageInterpreter interpreter = new RPCMessageInterpreter(m);
+			SessionId responseSessionID = interpreter.sessionId();
 			
+			if(id.toStringWithoutVersion().equals(responseSessionID.toStringWithoutVersion()))
+			{
+				return true;
+			}
 		}
+		return false;
 		
-		return true;
 	}
 	
 	
