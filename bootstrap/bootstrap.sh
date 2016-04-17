@@ -86,4 +86,9 @@ aws s3 cp s3://edu-cornell-cs-cs5300s16-project1b/project1b.war .
 aws s3 cp s3://edu-cornell-cs-cs5300s16-project1b/redeploy_war_file.sh .
 # puts WAR file in webapps folder and starts TomCat
 sudo cp project1b.war /var/lib/tomcat8/webapps
+
+# copies jar file dependencies into project in tomcat
 sudo service tomcat8 start
+aws s3 cp s3://edu-cornell-cs-cs5300s16-project1b/jars/ . --recursive
+sudo cp *.jar /var/lib/tomcat8/webapps/project1b/WEB-INF/lib
+sudo service tomcat8 restart
