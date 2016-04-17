@@ -47,7 +47,7 @@ public class Project1bServlet extends HttpServlet {
     @Override
 	public void init() {
     	Logger.info(fname + "#init: performing server initialization");
-		//Initializer.init();
+		Initializer.init();
 	}
 
 	/**

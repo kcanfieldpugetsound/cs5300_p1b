@@ -19,7 +19,4 @@
     <servlet-name>Project1bServlet</servlet-name>
     <url-pattern>/Project1bServlet</url-pattern>
   </servlet-mapping>
-  <listener>
-    <listener-class>edu.cornell.cs5300.project1b.servlet.Config</listener-class>
-  </listener>
 </web-app>
