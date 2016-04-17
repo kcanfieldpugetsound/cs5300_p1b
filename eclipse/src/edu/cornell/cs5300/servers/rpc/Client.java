@@ -43,7 +43,7 @@ public class Client {
 	}
 	
 	//search data responses
-	public Session sessionSearch(SessionId id, IPAddress addr)
+	public static Session sessionSearch(SessionId id, IPAddress addr)
 	{
 		Object[] responses= data_responses.toArray();
 		for(int i=0; i<data_responses.size(); i++)
@@ -62,7 +62,7 @@ public class Client {
 	
 	
 	//search push responses
-	public boolean getACK(SessionId id, IPAddress addr)
+	public static boolean getACK(SessionId id, IPAddress addr)
 	{
 		Object[] acks= push_responses.toArray();
 		for(int j=0; j<acks.length; j++)
