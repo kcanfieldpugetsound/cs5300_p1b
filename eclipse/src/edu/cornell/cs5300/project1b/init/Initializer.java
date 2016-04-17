@@ -8,6 +8,8 @@ import edu.cornell.cs5300.project1b.db.SimpleDBInterface;
 import edu.cornell.cs5300.project1b.file.ServerFileInterface;
 import edu.cornell.cs5300.project1b.rpc.RPC;
 import edu.cornell.cs5300.project1b.util.log.Logger;
+import edu.cornell.cs5300.servers.rpc.Client;
+import edu.cornell.cs5300.servers.rpc.Server;
 
 /**
  * Class for server initialization methods.
@@ -91,7 +93,9 @@ public class Initializer {
 		 * Initialize Remote Procedure Call service
 		 */
 		Logger.debug(fname + "#init: running RPC.init() on thread " + Thread.currentThread().getId());
-		RPC.init();
+		//RPC.init();
+		Server.init();
+		Client.init();
 		
 		Logger.info(fname + "#init: complete");
 		

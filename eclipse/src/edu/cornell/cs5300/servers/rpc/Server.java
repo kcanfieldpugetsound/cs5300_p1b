@@ -22,6 +22,9 @@ public class Server {
 			e.printStackTrace();
 		}
 		new ServerThread().start();
+		new PushRequestHandlerThread().start();
+		new DataRequestHandlerThread().start();
+		
 	}
 	
 }
