@@ -38,9 +38,20 @@ public class SessionManager {
 	 */
 	public static Session getSession (List<IPAddress> servers, SessionId id) {
 		//sanity check
-		if (servers == null || servers.size() == 0 || id == null) {
+		
+		if (servers == null ) {
 			Logger.error(fname + 
-				"#getSession: called with zero or null servers, or null id");
+				"#getSession: called with null servers list");
+			return null;
+		}
+		if (servers.size() == 0 ) {
+			Logger.error(fname + 
+				"#getSession: called with zero servers");
+			return null;
+		}
+		if ( id == null) {
+			Logger.error(fname + 
+				"#getSession: called with null id");
 			return null;
 		}
 		
