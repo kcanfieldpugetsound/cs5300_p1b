@@ -1,8 +1,5 @@
 package edu.cornell.cs5300.project1b.servlet.session;
 
-import java.net.DatagramPacket;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,11 +7,8 @@ import edu.cornell.cs5300.project1b.Constants;
 import edu.cornell.cs5300.project1b.IPAddress;
 import edu.cornell.cs5300.project1b.file.ServerFileInterface;
 import edu.cornell.cs5300.project1b.rpc.RPC;
-import edu.cornell.cs5300.project1b.rpc.message.RPCMessage;
-import edu.cornell.cs5300.project1b.rpc.message.RPCMessageFactory;
 import edu.cornell.cs5300.project1b.servlet.State;
 import edu.cornell.cs5300.project1b.util.log.Logger;
-import edu.cornell.cs5300.servers.rpc.Client;
 
 /**
  * A class for managing user sessions for the entire system, across
@@ -53,48 +47,14 @@ public class SessionManager {
 		//if we have the data, that's a lot faster, so use it
 		if (servers.contains(Constants.OUR_ADDRESS)) {
 			Logger.debug(fname + "#getSession: using local data for id " + id);
-			Session session = State.data.get(id.toStringWithoutVersion());
-			if (session != null)
-				return session;
+			return State.data.get(id.toStringWithoutVersion());
 		}
 			
 		//else we have to query each server, one at a time
-		loop:
 		for (int i = 0; i < Math.min(Constants.R, servers.size()); i++) {
 			Logger.debug(fname + "#getSession: requesting data for id " + id + 
 				" from server " + servers.get(i));
-			
-			RPCMessage message = 
-					RPCMessageFactory.createRPCMessage(RPCMessage.Type.DATA_REQUEST, id);
-				InetAddress addr = null;
-				try {
-					addr = InetAddress.getByAddress(servers.get(i).getBytes());
-				} catch (UnknownHostException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				byte[] payload = message.serialize();
-				
-				DatagramPacket packet = 
-					new DatagramPacket(payload, payload.length, addr, Constants.RPC_PORT);
-				boolean sent = Client.sendPacket(packet);
-				
-				if (!sent)
-					continue loop;
-				
-				long startTime = System.currentTimeMillis();
-				long elapsed = System.currentTimeMillis() - startTime;
-				Session result = null;
-				
-				while (elapsed < (long)Constants.ACK_TIMEOUT_MILLISECONDS && result == null){
-					result = Client.sessionSearch(id, servers.get(i)); 
-					elapsed = System.currentTimeMillis() - startTime; 
-				}
-				
-			//RPC.requestData(servers.get(i), id);
-			
-			
+			Session result = RPC.requestData(servers.get(i), id);
 			if (result != null) {
 				Logger.debug(fname + "#getSession: got data for id " + id + 
 					" from server " + servers.get(i));
@@ -140,7 +100,6 @@ public class SessionManager {
 		
 		//store at WQ - 1 other servers
 		int num_attempts = Math.min(available_servers.size(), Constants.W - 1);
-		loop:
 		for (int i = 0; i < num_attempts; i++) {
 			//we've stored at enough servers
 			if (stored_servers.size() >= Constants.WQ) {
@@ -155,40 +114,7 @@ public class SessionManager {
 				(int) Math.floor(Math.random() * available_servers.size());
 			IPAddress server = available_servers.remove(index);
 			
-			RPCMessage message = 
-					RPCMessageFactory.createRPCMessage(RPCMessage.Type.PUSH_REQUEST, session.sessionId(), session.userData());
-				InetAddress addr = null;
-				try {
-					addr = InetAddress.getByAddress(server.getBytes());
-				} catch (UnknownHostException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-					continue loop;
-				}
-				
-				byte[] payload = message.serialize();
-				
-				DatagramPacket packet = 
-					new DatagramPacket(payload, payload.length, addr, Constants.RPC_PORT);
-				
-				boolean sent = Client.sendPacket(packet);
-				boolean success = false;
-				
-				if (!sent)
-					continue loop;
-				else{
-					long startTime = System.currentTimeMillis();
-					long elapsed = System.currentTimeMillis() - startTime;
-					
-					while (elapsed < (long)Constants.ACK_TIMEOUT_MILLISECONDS && success == false){
-						success = Client.getACK(session.sessionId(), server); 
-						elapsed = System.currentTimeMillis() - startTime; 
-					}
-				}
-				
-				
-			
-			
+			boolean success = RPC.pushData(server, session);
 			if (success) {
 				Logger.debug
 					(fname + "#setSession: successfully stored data for id " + 

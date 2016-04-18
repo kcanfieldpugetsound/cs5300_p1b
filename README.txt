@@ -128,6 +128,8 @@ An immutable class containing all information necessary to store a user's data f
 
 
 ** SessionId.java
+
+
 Representation of a globally unique {@code Session} identifier. The ID of the server, the number of times the server has rebooted, the local session number, and a version number are combined to produce such a globally unique ID.
 
 
@@ -145,3 +147,16 @@ A class for creating an immutable pair of objects. Pair components are accessed 
 
 ** SerializeUtils.java
 A class containing methods useful for serializing data including byteArrayToInt(), stringToByteArray(), and byteArrayToString().
+
+
+PushRequestHandlerThread adds data to the local hashmap
+
+DataRequestHandlerThread retrieves from the local hashmap
+
+Server initializes the RPC server. 
+
+Server Thread takes requests and sorts them for the handlers to respond to. 
+
+Client sends requests, searches received responses, and acknowledgements for end users. 
+
+Client thread pushes responses to a queue based on data response or acknowledgement. 
