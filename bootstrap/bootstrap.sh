@@ -5,10 +5,10 @@
 #touch config.csv
 touch servers.txt
 #set environmental vars
-sudo echo "export AWS_ACCESS_KEY_ID=AKIAJKIFIX34IMXFC5ZQ" >> /tmp/profile
+sudo echo "export AWS_ACCESS_KEY_ID=XXXXXXXXXXXXX" >> /tmp/profile
 sudo echo "export AWS_DEFAULT_REGION=us-east-1" >> /tmp/profile
 sudo echo "export AWS_DEFAULT_OUTPUT=text" >> /tmp/profile
-sudo echo "export AWS_SECRET_ACCESS_KEY=toXaBtobc78s5Ku6XKESco0ylWrgqI77oaSohPYj" >> /tmp/profile
+sudo echo "export AWS_SECRET_ACCESS_KEY=XXXXXXXXXXXXX" >> /tmp/profile
 
 # set environment vars for W, WQ, R, N, F, RPC_PORT, MAX_MESSAGE_SIZE, SESSION_TIMEOUT_MILLIS
 # ACK_TIMEOUT_MILLISECONDS, REBOOT_ID, SERVER_FILEPATH, and SIMPLEDB_ADDRESS
